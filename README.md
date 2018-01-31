@@ -1,6 +1,6 @@
-# cvbankas.lt web site scrapr
+# cvbankas.lt web site scraper
 
-Tool for scraping cvbankas.lt eb site.
+Tool for scraping cvbankas.lt web site.
 
 ## Running 
 
