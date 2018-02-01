@@ -5,6 +5,19 @@ import time
 import json
 
 
+def remove_chars(string, replace_to, *args):
+    if not replace_to:
+        return "".join([c for c in string if c not in args])
+
+    if string:
+        for c in args:
+            string = string.replace(c, replace_to)
+
+        return string.strip()
+
+    return ""
+
+
 def scrape_single_advertisement(url=None, content=None):
     """
     Scrapes single web page based on url
@@ -12,7 +25,8 @@ def scrape_single_advertisement(url=None, content=None):
     :param content: content to scrape
     :param url: url to scrape
     :return: {} or dictionary with elements "title", "expiration_date", "city", "company_name", "salary", "watched",
-    "candidates", "responsibilities_text", "qualifications_text", "benefits_text", "salary_text", "company_description"
+    "candidates", "responsibilities_text", "qualifications_text", "benefits_text", "salary_text", "company_description",
+    "category"
     """
 
     if url:
@@ -25,7 +39,7 @@ def scrape_single_advertisement(url=None, content=None):
 
     data = dict.fromkeys(["title", "expiration_date", "city", "company_name", "salary", "watched",
                           "candidates", "responsibilities_text", "qualifications_text", "benefits_text",
-                          "salary_text", "company_description"],
+                          "salary_text", "company_description", "category"],
                          None)
 
     soup = BeautifulSoup(content, "html.parser")
@@ -66,7 +80,14 @@ def scrape_single_advertisement(url=None, content=None):
 
     data["expiration_date"] = soup.find("div", {"id": "jobad_expiration"}).attrs["title"]
 
-    data = {key: None if not value else re.sub(" +", " ", value.replace("\r\n", " ").replace("\n\n", " ").replace("\n", " ").strip())
+    script_elements = soup.find_all("script")
+    for script_element in script_elements:
+        script_lines = script_element.text.split("\n")
+        for line in script_lines:
+            if "work_field" in line:
+                data["category"] = remove_chars(line.strip().split(":")[-1], None, '"', ")", "(", "'", ";")
+
+    data = {key: None if not value else re.sub(" +", " ", remove_chars(value, " ", "\r\n", "\n\n", "\n"))
             for key, value in data.items()}
 
     data["url"] = url
@@ -164,5 +185,3 @@ def scrape_multiple_pages(url, timeout=1, file_path=None, verbose=False):
             json.dump(data, file_obj, ensure_ascii=False, indent=4)
     else:
         print(json.dumps(data, indent=4))
-
-print(scrape_single_advertisement(url="https://www.cvbankas.lt/inzinierius-konstruktorius-kaune/1-3481691"))
