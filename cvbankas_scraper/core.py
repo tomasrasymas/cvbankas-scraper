@@ -62,7 +62,7 @@ def scrape_single_advertisement(url=None, content=None):
             break
 
     data["company_description"] = soup.find("div", {"id": "jobad_company_description"}).text
-    data["companay_name"] = soup.find("h2", {"id": "jobad_company_title"}).text
+    data["company_name"] = soup.find("h2", {"id": "jobad_company_title"}).text
 
     data["expiration_date"] = soup.find("div", {"id": "jobad_expiration"}).attrs["title"]
 
@@ -164,3 +164,5 @@ def scrape_multiple_pages(url, timeout=1, file_path=None, verbose=False):
             json.dump(data, file_obj, ensure_ascii=False, indent=4)
     else:
         print(json.dumps(data, indent=4))
+
+print(scrape_single_advertisement(url="https://www.cvbankas.lt/inzinierius-konstruktorius-kaune/1-3481691"))
