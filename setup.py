@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name="cvbankas_scraper",
-      version="0.0.1",
+      version="0.0.2",
       description="cvbankas.lt web site scraper",
       url="https://github.com/tomasrasymas/cvbankas_scraper",
       author="Tomas Rasymas",
