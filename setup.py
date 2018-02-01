@@ -10,9 +10,9 @@ setup(name="cvbankas_scraper",
       entry_points={
         "console_scripts": ["cvbankas_scraper=cvbankas_scraper.command_line:main"],
       },
-      data_files = [("", ["LICENSE"])],
+      data_files=[("", ["LICENSE"])],
       install_requires=[
-          "requests==2.18.4",
-          "beautifulsoup4==4.6.0"
+          "requests>=2.18.4",
+          "beautifulsoup4>=4.6.0"
       ],
       packages=["cvbankas_scraper"])
