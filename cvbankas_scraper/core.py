@@ -48,7 +48,11 @@ def scrape_single_advertisement(url=None, content=None):
                                      "id": "jobad_heading1"}
                               ).get_text()
 
-    data["city"] = soup.find("div", {"id": "jobad_location"}).a.text
+    city_element = soup.find("div", {"id": "jobad_location"})
+    if city_element:
+        a_element = city_element.find("a")
+        if a_element:
+            data["city"] = a_element.text
 
     salary_element = soup.find("strong", {"class": "salary_emphasised"})
     if salary_element:
@@ -185,3 +189,5 @@ def scrape_multiple_pages(url, timeout=1, file_path=None, verbose=False):
             json.dump(data, file_obj, ensure_ascii=False, indent=4)
     else:
         print(json.dumps(data, indent=4))
+
+print(scrape_single_advertisement("https://www.cvbankas.lt/senior-linux-administrator-/1-4672451"))
