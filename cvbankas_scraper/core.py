@@ -189,5 +189,3 @@ def scrape_multiple_pages(url, timeout=1, file_path=None, verbose=False):
             json.dump(data, file_obj, ensure_ascii=False, indent=4)
     else:
         print(json.dumps(data, indent=4))
-
-print(scrape_single_advertisement("https://www.cvbankas.lt/senior-linux-administrator-/1-4672451"))
