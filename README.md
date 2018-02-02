@@ -37,16 +37,16 @@ execute command
 ```python
 import cvbankas_scraper
 
-# single advertisement
-cvbankas_scraper.scrape_single_advertisement(url="https://www.cvbankas.lt/etransport-vairuotojas-a-keleiviu-pavezejas-a-kaune-kaune/1-4351087")
+# single post
+cvbankas_scraper.scrape_single_post(url="https://www.cvbankas.lt/etransport-vairuotojas-a-keleiviu-pavezejas-a-kaune-kaune/1-4351087")
 
-# multiple advertisements
-cvbankas_scraper.scrape_multiple_advertisements(url="https://www.cvbankas.lt/?miestas=Kaunas&page=21",
-                                                timeout=2,
-                                                verbose=True)
+# multiple posts
+cvbankas_scraper.scrape_multiple_posts(url="https://www.cvbankas.lt/?miestas=Kaunas&page=21",
+                                       timeout=2,
+                                       verbose=True)
 
 # all pages from url as start page
-cvbankas_scraper.scrape_multiple_advertisements(url="https://www.cvbankas.lt/?miestas=Kaunas&page=19",
-                                                timeout=2,
-                                                verbose=True)
+cvbankas_scraper.scrape_multiple_pages(url="https://www.cvbankas.lt/?miestas=Kaunas&page=19",
+                                       timeout=2,
+                                       verbose=True)
 ```
