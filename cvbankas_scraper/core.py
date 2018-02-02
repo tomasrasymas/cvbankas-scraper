@@ -18,7 +18,7 @@ def remove_chars(string, replace_to, *args):
     return ""
 
 
-def scrape_single_advertisement(url=None, content=None):
+def scrape_single_post(url=None, content=None):
     """
     Scrapes single web page based on url
 
@@ -99,7 +99,7 @@ def scrape_single_advertisement(url=None, content=None):
     return data
 
 
-def scrape_multiple_advertisements(url=None, content=None, timeout=1, verbose=False):
+def scrape_multiple_posts(url=None, content=None, timeout=1, verbose=False):
     """
     Scrapes multiple web pages based on url
 
@@ -107,7 +107,7 @@ def scrape_multiple_advertisements(url=None, content=None, timeout=1, verbose=Fa
     :param content: content to scrape
     :param timeout: time out between requests, default=1
     :param verbose: show extended information, default=False
-    :return: list with advertisement dictiotary
+    :return: list with job post dictionary
     """
 
     data = []
@@ -122,13 +122,13 @@ def scrape_multiple_advertisements(url=None, content=None, timeout=1, verbose=Fa
 
     soup = BeautifulSoup(content, "html.parser")
 
-    advertisements = soup.find_all("article")
+    job_posts = soup.find_all("article")
 
-    for advertisement in advertisements:
+    for job_post in job_posts:
         if verbose:
-            print(advertisement.a.attrs["href"])
+            print(job_post.a.attrs["href"])
 
-        data.append(scrape_single_advertisement(advertisement.a.attrs["href"]))
+        data.append(scrape_single_post(job_post.a.attrs["href"]))
 
         time.sleep(timeout)
 
@@ -169,19 +169,19 @@ def scrape_multiple_pages(url, timeout=1, file_path=None, verbose=False):
     :param verbose: show extended information, default=False
     :param url: url of first page to scrape
     :param timeout: time out between requests, default=1
-    :return: list with advertisement dictiotary
+    :return: list with post dictionary
     """
 
     data = []
-    data.extend(scrape_multiple_advertisements(url=url,
-                                               timeout=timeout,
-                                               verbose=verbose))
+    data.extend(scrape_multiple_posts(url=url,
+                                      timeout=timeout,
+                                      verbose=verbose))
 
     next_url = next_url_exists(url)
     while next_url:
-        data.extend(scrape_multiple_advertisements(url=next_url,
-                                                   timeout=timeout,
-                                                   verbose=verbose))
+        data.extend(scrape_multiple_posts(url=next_url,
+                                          timeout=timeout,
+                                          verbose=verbose))
         next_url = next_url_exists(next_url)
 
     if file_path:
